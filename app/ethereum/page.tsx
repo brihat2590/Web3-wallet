@@ -1,42 +1,28 @@
 "use client"
-"use client"
-
 import { useState } from "react";
-import { Keypair } from "@solana/web3.js";
-import nacl from "tweetnacl";
 import { mnemonicToSeed } from "bip39";
-import { derivePath } from "ed25519-hd-key";
+import { Wallet, HDNodeWallet } from "ethers";
 
-export default function Solana({ mnemonic }: { mnemonic: string }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [publicKeys, setPublicKeys] = useState<string[]>([]);
+export const EthereumWallet = ({mnemonic}:any) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [addresses, setAddresses] = useState<string[]>([]);
 
-  const handleClick = async () => {
-    const seedBuffer = await mnemonicToSeed(mnemonic);
-    const seed = new Uint8Array(seedBuffer);
+    return (
+        <div>
+            <button onClick={async function() {
+                const seed = await mnemonicToSeed(mnemonic);
+                const derivationPath = `m/44'/60'/${currentIndex}'/0'`;
+                 const hdNode = HDNodeWallet.fromSeed(seed);
+                 const child = hdNode.derivePath(derivationPath);
+                 const privateKey = child.privateKey;
+                 const wallet = new Wallet(privateKey);
+                 setCurrentIndex(currentIndex + 1);
+                setAddresses([...addresses, wallet.address]);
+            }}>
+                Add ETH wallet
+            </button>
 
-    // Convert seed to hex correctly
-    const seedHex = Buffer.from(seed).toString("hex");
-
-    // Correct derivation path for Solana
-    const path = `m/44'/501'/${currentIndex}'/0'`;
-    const derivedSeed = derivePath(path, seedHex).key;
-
-    // Generate keypair
-    const secretKey = nacl.sign.keyPair.fromSeed(derivedSeed).secretKey;
-    const keypair = Keypair.fromSecretKey(secretKey);
-
-    // Update state correctly
-    setCurrentIndex((prev) => prev + 1);
-    setPublicKeys((prevKeys) => [...prevKeys, keypair.publicKey.toBase58()]);
-  };
-
-  return (
-    <div>
-      <button onClick={handleClick}>Add Wallet</button>
-      {publicKeys.map((key, index) => (
-        <div key={index}>SOL-{key}</div> // ✅ Added key
-      ))}
-    </div>
-  );
+            {addresses.map((p, index) => <div key={index}> Eth - {p}</div>)}
+        </div>
+    )
 }

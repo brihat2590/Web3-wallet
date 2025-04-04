@@ -7,7 +7,7 @@ export default function Header(){
 
         <div className="flex gap-2 items-center p-2 pl-2">
             <span>{<AiFillAlipayCircle size={30}/>}</span>
-            <span className="text-2xl font-bold">KOSH </span>
+            <span className="text-2xl font-bold">GUPS </span>
             <span className="rounded-full text-base border px-2 font-semibold py-2">v1.3</span>
 
         </div>

@@ -6,7 +6,7 @@ import nacl from "tweetnacl";
 import { mnemonicToSeed } from "bip39";
 import { derivePath } from "ed25519-hd-key";
 
-export default function Solana({ mnemonic }: { mnemonic: string }) {
+export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [publicKeys, setPublicKeys] = useState<string[]>([]);
 

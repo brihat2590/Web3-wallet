@@ -1,8 +1,10 @@
+import React from "react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import Footer from "./_components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,9 +13,8 @@ const geistSans = Geist({
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
-  variable: "--font-outfit", // optional but good practice
+  variable: "--font-outfit",
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
@@ -26,23 +27,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
-        className={`${geistMono.variable} ${geistSans.variable} ${outfit.variable} antialiased `}
+        className={`${geistMono.variable} ${geistSans.variable} ${outfit.variable} antialiased flex flex-col min-h-screen`}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <main className="flex-grow">{children}</main>
+        </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );
