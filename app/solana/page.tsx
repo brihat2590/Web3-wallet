@@ -6,12 +6,22 @@ import nacl from "tweetnacl"
 import { mnemonicToSeed } from "bip39"
 import { derivePath } from "ed25519-hd-key"
 import { motion, AnimatePresence } from "framer-motion"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
 
 export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [publicKeys, setPublicKeys] = useState<string[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
-  const[deleting,setDeleting]=useState(false);
 
   const handleClick = async () => {
     setIsGenerating(true)
@@ -31,10 +41,10 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
       setIsGenerating(false)
     }, 1000)
   }
-  const deleteAllRecords=()=>{
-    setPublicKeys([]);
-    setCurrentIndex(0);
-    setDeleting(false)
+
+  const deleteAllRecords = () => {
+    setPublicKeys([])
+    setCurrentIndex(0)
   }
 
   return (
@@ -48,20 +58,33 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
       </p>
 
       <div className="flex gap-3">
-          <button
-            onClick={handleClick}
-            disabled={isGenerating}
-            className="bg-emerald-600 hover:bg-emerald-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-          >
-            {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
-          </button>
+        <button
+          onClick={handleClick}
+          disabled={isGenerating}
+          className="bg-emerald-600 hover:bg-emerald-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
+        >
+          {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
+        </button>
 
-          <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white" onClick={deleteAllRecords}
-          disabled={deleting}>
-            {deleting ?"Deleting wallet":"Delete Wallet"}
-
-
-          </button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg text-white">
+              Delete Wallet
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action will permanently delete all generated wallet addresses. You can't undo this.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={deleteAllRecords}>Yes, Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <AnimatePresence>

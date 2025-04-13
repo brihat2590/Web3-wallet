@@ -4,6 +4,17 @@ import { useState } from "react"
 import { mnemonicToSeed } from "bip39"
 import { Wallet, HDNodeWallet } from "ethers"
 import { motion, AnimatePresence } from "framer-motion"
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog"
 
 interface EthereumWalletProps {
   mnemonic: string
@@ -29,9 +40,10 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
       setIsGenerating(false)
     }, 1000)
   }
-  const deleteWallet=()=>{
-    setAddresses([]);
-    setCurrentIndex(0);
+
+  const deleteWallet = () => {
+    setAddresses([])
+    setCurrentIndex(0)
   }
 
   return (
@@ -45,17 +57,33 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
       </p>
 
       <div className="flex gap-3">
+        <button
+          onClick={generateWallet}
+          disabled={isGenerating}
+          className="bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
+        >
+          {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
+        </button>
 
-          <button
-            onClick={generateWallet}
-            disabled={isGenerating}
-            className="bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-          >
-            {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
-          </button>
-          <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white" onClick={deleteWallet}>Delete Wallet
-
-          </button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg text-white">
+              Delete Wallet
+            </button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This will remove all generated Ethereum wallets. This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={deleteWallet}>Yes, Delete</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
 
       <AnimatePresence>
