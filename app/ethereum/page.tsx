@@ -29,6 +29,10 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
       setIsGenerating(false)
     }, 1000)
   }
+  const deleteWallet=()=>{
+    setAddresses([]);
+    setCurrentIndex(0);
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground px-6 py-10 flex flex-col items-center">
@@ -40,13 +44,19 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
         Generate Ethereum wallet addresses from your mnemonic using HD derivation.
       </p>
 
-      <button
-        onClick={generateWallet}
-        disabled={isGenerating}
-        className="bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-      >
-        {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
-      </button>
+      <div className="flex gap-3">
+
+          <button
+            onClick={generateWallet}
+            disabled={isGenerating}
+            className="bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
+          >
+            {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
+          </button>
+          <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white" onClick={deleteWallet}>Delete Wallet
+
+          </button>
+      </div>
 
       <AnimatePresence>
         {isGenerating && (

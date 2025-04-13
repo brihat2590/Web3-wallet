@@ -11,6 +11,7 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [publicKeys, setPublicKeys] = useState<string[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
+  const[deleting,setDeleting]=useState(false);
 
   const handleClick = async () => {
     setIsGenerating(true)
@@ -30,6 +31,11 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
       setIsGenerating(false)
     }, 1000)
   }
+  const deleteAllRecords=()=>{
+    setPublicKeys([]);
+    setCurrentIndex(0);
+    setDeleting(false)
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground px-6 py-10 flex flex-col items-center">
@@ -41,13 +47,22 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
         Securely derive Solana wallet addresses from your mnemonic phrase using BIP44 and Ed25519 keys.
       </p>
 
-      <button
-        onClick={handleClick}
-        disabled={isGenerating}
-        className="bg-emerald-600 hover:bg-emerald-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
-      >
-        {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
-      </button>
+      <div className="flex gap-3">
+          <button
+            onClick={handleClick}
+            disabled={isGenerating}
+            className="bg-emerald-600 hover:bg-emerald-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
+          >
+            {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
+          </button>
+
+          <button className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white" onClick={deleteAllRecords}
+          disabled={deleting}>
+            {deleting ?"Deleting wallet":"Delete Wallet"}
+
+
+          </button>
+      </div>
 
       <AnimatePresence>
         {isGenerating && (
