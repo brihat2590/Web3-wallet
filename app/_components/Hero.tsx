@@ -4,6 +4,7 @@ import { useState } from "react";
 import { generateMnemonic } from "bip39";
 import SolanaWallet from "../solana/page";
 import { EthereumWallet } from "../ethereum/page";
+import Link from "next/link";
 
 
 export default function HeroSection() {
@@ -18,7 +19,7 @@ export default function HeroSection() {
 
   return (
     <div className="flex flex-col mt-10">
-      <h1 className="text-7xl font-semibold tracking-tight font">
+      <h1 className="text-7xl font-semibold tracking-tight font-outfit">
         Gups supports multiple blockchains
       </h1>
       <p className="text-2xl tracking-tight font-light py-4 mt-2">
@@ -37,27 +38,29 @@ export default function HeroSection() {
       </div>
 
       <div className="flex gap-4 items-center py-4 mt-2">
-        <button
-          onClick={() => setSelectedChain("solana")}
+      <Link href={"/solana"}><button
+         
           className="px-6 py-2 border border-white text-white rounded-lg 
             hover:bg-pink-600 hover:border-pink-400 hover:text-white 
             transition-all duration-300"
         >
           Solana
-        </button>
+        </button></Link>
 
+        <Link href={"/ethereum"}>
         <button
-          onClick={() => setSelectedChain("ethereum")}
+          
           className="px-6 py-2 border border-white text-white rounded-lg 
             hover:text-white hover:bg-indigo-600 hover:border-indigo-400
             transition-all duration-300"
         >
           Ethereum
         </button>
+        
+        </Link>
       </div>
 
-      {selectedChain === "solana" && <SolanaWallet mnemonic={mnemonic} />}
-      {selectedChain === "ethereum" && <EthereumWallet mnemonic={mnemonic} />}
+      
     </div>
   );
 }
