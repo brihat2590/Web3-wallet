@@ -31,18 +31,19 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white px-6 py-10 flex flex-col items-center">
-      <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center tracking-tight">
+    <div className="min-h-screen bg-background text-foreground px-6 py-10 flex flex-col items-center">
+      <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center tracking-tight dark:text-purple-300 text-purple-700">
         ✨ Ethereum Wallet Generator
       </h1>
-      <p className="text-lg text-center max-w-xl mb-10 text-neutral-400">
+
+      <p className="text-lg text-center max-w-xl mb-10 text-muted-foreground">
         Generate Ethereum wallet addresses from your mnemonic using HD derivation.
       </p>
 
       <button
         onClick={generateWallet}
         disabled={isGenerating}
-        className="bg-purple-700 hover:bg-purple-800 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        className="bg-purple-600 hover:bg-purple-700 transition px-6 py-3 rounded-xl text-lg font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-white"
       >
         {isGenerating ? "Generating..." : "➕ Generate New Wallet"}
       </button>
@@ -53,7 +54,7 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="mt-8 text-sm text-purple-300"
+            className="mt-8 text-sm text-purple-500"
           >
             🧠 Deriving HD path and computing address...
           </motion.div>
@@ -67,10 +68,13 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-[#1a1a1a] border border-white/10 rounded-xl p-4 shadow-md"
+            className="bg-muted border border-border rounded-xl p-4 shadow-md"
           >
-            <p className="text-sm font-mono text-purple-200 break-all">
-              <span className="font-bold text-purple-400">Wallet {index + 1}:</span> {address}
+            <p className="text-sm font-mono text-purple-500 break-all">
+              <span className="font-bold text-purple-700 dark:text-purple-400">
+                Wallet {index + 1}:
+              </span>{" "}
+              {address}
             </p>
           </motion.div>
         ))}

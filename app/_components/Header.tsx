@@ -1,5 +1,6 @@
 import { AiFillAlipayCircle } from "react-icons/ai";
 import { ModeToggle } from "./Dark";
+import Link from "next/link";
 
 export default function Header(){
   return(
@@ -8,7 +9,7 @@ export default function Header(){
 
                                 <div className="flex gap-2 items-center p-2 pl-2">
                                     <span>{<AiFillAlipayCircle size={30}/>}</span>
-                                    <span className="text-2xl font-bold">GUPS </span>
+                                    <Link href={'/'} className="text-2xl font-bold" >GUPS </Link>
                                     <span className="rounded-full text-base border px-2 font-semibold py-2">v1.3</span>
 
                                 </div>
