@@ -33,20 +33,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${outfit.variable} antialiased flex flex-col min-h-screen`}
-      >
+      <body className={`${outfit.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <Header/>
-          
-          <main className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">{children}</main>
+          <div className=" min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col gap-4">
+            <Header />
+
+            {/* Content section - this should be constrained to the remaining height */}
+            <main className="flex-grow ">
+              {children}
+            </main>
+
+            {/* Footer with fixed position at the bottom */}
+            <Footer />
+          </div>
         </ThemeProvider>
-        <Footer />
       </body>
     </html>
   );

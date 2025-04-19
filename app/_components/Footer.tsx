@@ -1,14 +1,18 @@
-export default function Footer(){
-    return(
-        <section className="w-full max-w-7xl mx-auto border-white border-t-1 py-4 px-4 m-2 ">
-
-            <p className="tracking-tight">designed and developed by
-                <a href="http://google.com" className="font-bold"> brihat</a>
-            </p>
-
-
-
-        </section>
-    )
-}       
-                        
+export default function Footer() {
+    return (
+      <section className="w-7xl  mx-auto border-t border-white py-4 px-4 fixed bottom-0">
+            <p className="tracking-tight flex justify-center items-center">
+          Designed and developed by
+          <a
+            href="http://google.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold ml-1"
+          >
+            brihat
+          </a>
+        </p>
+      </section>
+    );
+  }
+  
