@@ -1,4 +1,4 @@
-"use client"
+"use client" // ✅ must be the first line in a client component
 
 import { useState } from "react"
 import { Keypair } from "@solana/web3.js"
@@ -20,8 +20,9 @@ import {
 
 export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [publicKeys, setPublicKeys] = useState<string[]>([])
+  const [wallets, setWallets] = useState<{ publicKey: string; privateKey: string }[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
+  const [showPrivateKey, setShowPrivateKey] = useState(false)
 
   const handleClick = async () => {
     setIsGenerating(true)
@@ -37,14 +38,24 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
 
     setTimeout(() => {
       setCurrentIndex((prev) => prev + 1)
-      setPublicKeys((prevKeys) => [...prevKeys, keypair.publicKey.toBase58()])
+      setWallets((prevWallets) => [
+        ...prevWallets,
+        {
+          publicKey: keypair.publicKey.toBase58(),
+          privateKey: Buffer.from(secretKey).toString("base64"),
+        },
+      ])
       setIsGenerating(false)
     }, 1000)
   }
 
   const deleteAllRecords = () => {
-    setPublicKeys([])
+    setWallets([])
     setCurrentIndex(0)
+  }
+
+  const showPrivateKeyHandler = () => {
+    setShowPrivateKey(!showPrivateKey)
   }
 
   return (
@@ -87,6 +98,13 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
         </AlertDialog>
       </div>
 
+      <button
+        onClick={showPrivateKeyHandler}
+        className="text-sm text-blue-600 underline mt-6"
+      >
+        {showPrivateKey ? "🙈 Hide Private Keys" : "🔓 Show Private Keys"}
+      </button>
+
       <AnimatePresence>
         {isGenerating && (
           <motion.div
@@ -101,7 +119,7 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
       </AnimatePresence>
 
       <div className="w-full max-w-2xl mt-12 space-y-4">
-        {publicKeys.map((key, index) => (
+        {wallets.map((wallet, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
@@ -111,10 +129,21 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
           >
             <p className="text-sm font-mono text-emerald-500 break-all">
               <span className="font-bold text-emerald-700 dark:text-emerald-400">
-                Wallet {index + 1}:
+                Wallet {index + 1}<br>
+                </br> 
+                <span className="mt-2">Public Key:</span>
               </span>{" "}
-              {key}
+              {wallet.publicKey}
             </p>
+
+            {showPrivateKey && (
+              <p className="text-sm font-mono text-red-500 break-all mt-2">
+                <span className="font-bold text-red-600 dark:text-red-400">
+                  Private Key:
+                </span>{" "}
+                {wallet.privateKey}
+              </p>
+            )}
           </motion.div>
         ))}
       </div>
