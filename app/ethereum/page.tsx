@@ -22,7 +22,7 @@ interface EthereumWalletProps {
 
 export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [addresses, setAddresses] = useState<string[]>([])
+  const [wallets, setWallets] = useState<{ address: string; privateKey: string }[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
 
   const generateWallet = async () => {
@@ -35,14 +35,20 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
     const wallet = new Wallet(child.privateKey)
 
     setTimeout(() => {
-      setAddresses((prev) => [...prev, wallet.address])
+      setWallets((prev) => [
+        ...prev,
+        {
+          address: wallet.address,
+          privateKey: wallet.privateKey,
+        },
+      ])
       setCurrentIndex((prev) => prev + 1)
       setIsGenerating(false)
     }, 1000)
   }
 
   const deleteWallet = () => {
-    setAddresses([])
+    setWallets([])
     setCurrentIndex(0)
   }
 
@@ -100,7 +106,7 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
       </AnimatePresence>
 
       <div className="w-full max-w-2xl mt-12 space-y-4">
-        {addresses.map((address, index) => (
+        {wallets.map((wallet, index) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
@@ -112,7 +118,13 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
               <span className="font-bold text-purple-700 dark:text-purple-400">
                 Wallet {index + 1}:
               </span>{" "}
-              {address}
+              {wallet.address}
+            </p>
+            <p className="text-sm font-mono text-red-500 break-all mt-2">
+              <span className="font-bold text-red-700 dark:text-red-400">
+                Private Key:
+              </span>{" "}
+              {wallet.privateKey}
             </p>
           </motion.div>
         ))}
