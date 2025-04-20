@@ -24,6 +24,7 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [wallets, setWallets] = useState<{ address: string; privateKey: string }[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
+  const [showPrivateKey, setShowPrivateKey] = useState(false)
 
   const generateWallet = async () => {
     setIsGenerating(true)
@@ -50,6 +51,10 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
   const deleteWallet = () => {
     setWallets([])
     setCurrentIndex(0)
+  }
+
+  const privKeyHandler = () => {
+    setShowPrivateKey(!showPrivateKey)
   }
 
   return (
@@ -92,6 +97,13 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
         </AlertDialog>
       </div>
 
+      <button
+        onClick={privKeyHandler}
+        className="text-sm text-blue-600 underline mt-6"
+      >
+        {showPrivateKey ? "🙈 Hide Private Keys" : "🔓 Show Private Keys"}
+      </button>
+
       <AnimatePresence>
         {isGenerating && (
           <motion.div
@@ -120,12 +132,15 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
               </span>{" "}
               {wallet.address}
             </p>
-            <p className="text-sm font-mono text-red-500 break-all mt-2">
-              <span className="font-bold text-red-700 dark:text-red-400">
-                Private Key:
-              </span>{" "}
-              {wallet.privateKey}
-            </p>
+
+            {showPrivateKey && (
+              <p className="text-sm font-mono text-red-500 break-all mt-2">
+                <span className="font-bold text-red-600 dark:text-red-400">
+                  Private Key:
+                </span>{" "}
+                {wallet.privateKey}
+              </p>
+            )}
           </motion.div>
         ))}
       </div>
