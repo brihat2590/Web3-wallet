@@ -31,7 +31,7 @@ export default function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        Gups supports multiple blockchains
+        WalletWave supports multiple <br></br> <span className="text-primary flex justify-center">blockchains</span>
       </motion.h1>
 
       <motion.p
@@ -46,7 +46,7 @@ export default function HeroSection() {
       <div className="flex gap-4 mt-4">
         <Button
           onClick={mnemoHandler}
-          className="bg-purple-600 hover:bg-purple-700 px-6 py-4 rounded-xl text-lg text-white transition-all duration-300"
+          className="bg-purple-600 hover:bg-purple-700 px-7 py-5 rounded-xl text-lg text-white transition-all duration-300"
         >
           Generate Mnemonic
         </Button>
@@ -67,7 +67,7 @@ export default function HeroSection() {
       >
         <Link href="/solana">
           <button
-            className="px-6 py-2 border border-purple-600 text-purple-600 dark:text-white rounded-lg 
+            className="px-6 py-2 mt-2 border border-purple-600 text-purple-600 dark:text-white rounded-lg 
             hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300"
           >
             Solana
@@ -76,7 +76,7 @@ export default function HeroSection() {
 
         <Link href="/ethereum">
           <button
-            className="px-6 py-2 border border-purple-600 text-purple-600 dark:text-white rounded-lg 
+            className="px-6 py-2  mt-2 border border-purple-600 text-purple-600 dark:text-white rounded-lg 
             hover:bg-purple-600 hover:text-white hover:border-purple-700 transition-all duration-300"
           >
             Ethereum

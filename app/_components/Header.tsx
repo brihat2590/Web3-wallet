@@ -9,7 +9,7 @@ export default function Header(){
 
                                 <div className="flex gap-2 items-center p-2 pl-2">
                                     <span>{<AiFillAlipayCircle size={30}/>}</span>
-                                    <Link href={'/'} className="text-2xl font-bold" >GUPS </Link>
+                                    <Link href={'/'} className="text-2xl font-bold" >WalletWave </Link>
                                     <span className="rounded-full text-base border px-2 font-semibold py-2">v1.3</span>
 
                                 </div>

@@ -1,4 +1,4 @@
-"use client" // ✅ must be the first line in a client component
+"use client" 
 
 import { useState } from "react"
 import { Keypair } from "@solana/web3.js"
@@ -52,6 +52,11 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
   const deleteAllRecords = () => {
     setWallets([])
     setCurrentIndex(0)
+  }
+
+  const deleteSpecificWallet=(index:number)=>{
+    setWallets((prev)=>prev.filter((_,i)=>i!==index))
+    setCurrentIndex((prev)=>prev-1)
   }
 
   const showPrivateKeyHandler = () => {
@@ -127,6 +132,7 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
             transition={{ delay: index * 0.1 }}
             className="bg-muted border border-border rounded-xl p-4 shadow-md"
           >
+            <div className="flex justify-between items-center">
             <p className="text-sm font-mono text-emerald-500 break-all">
               <span className="font-bold text-emerald-700 dark:text-emerald-400">
                 Wallet {index + 1}<br>
@@ -135,6 +141,9 @@ export default function SolanaWallet({ mnemonic }: { mnemonic: string }) {
               </span>{" "}
               {wallet.publicKey}
             </p>
+            <button onClick={()=>deleteSpecificWallet(index)} className="text-red-600 hover:text-red-700 transition-all duration-300">X</button>
+
+            </div>
 
             {showPrivateKey && (
               <p className="text-sm font-mono text-red-500 break-all mt-2">

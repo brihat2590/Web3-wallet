@@ -53,6 +53,11 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
     setCurrentIndex(0)
   }
 
+  const deleteSpecificWallet=(index:number)=>{
+    setWallets((prev)=>prev.filter((_,i)=>i!==index))
+    setCurrentIndex((prev)=>prev-1)
+  }
+
   const privKeyHandler = () => {
     setShowPrivateKey(!showPrivateKey)
   }
@@ -126,12 +131,16 @@ export const EthereumWallet = ({ mnemonic }: EthereumWalletProps) => {
             transition={{ delay: index * 0.1 }}
             className="bg-muted border border-border rounded-xl p-4 shadow-md"
           >
+            <div className="flex justify-between items-center ">
             <p className="text-sm font-mono text-purple-500 break-all">
               <span className="font-bold text-purple-700 dark:text-purple-400">
                 Wallet {index + 1}:
               </span>{" "}
               {wallet.address}
             </p>
+
+            <button onClick={()=>deleteSpecificWallet(index)} className="text-red-600 hover:text-red-700 transition-all duration-300">X</button>
+            </div>
 
             {showPrivateKey && (
               <p className="text-sm font-mono text-red-500 break-all mt-2">
